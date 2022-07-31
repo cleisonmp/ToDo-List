@@ -1,5 +1,6 @@
 import { ClipboardText, PlusCircle } from "phosphor-react";
-import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Header } from "./components/Header";
 import { Task } from "./components/Task";
 
@@ -10,49 +11,76 @@ const taskDefaultList:TaskProps[] = [
     isFinished: false,
   },
   {
-    id: 1,
+    id: 2,
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: false,
   },
   {
-    id: 1,
+    id: 3,
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: true,
   },
   {
-    id: 1,
+    id: 4,
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: false,
   },
   {
-    id: 1,
+    id: 5,
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: true,
   },
 ]
 export function App() {  
+  const [newTaskText, setNewTaskText] = useState('');
   const [tasksCreated, setTasksCreated] = useState(taskDefaultList)
-  const tasksFinished = 3;
-  const hasAtLeastOneTask = false//(tasksCreated.length>0)
+  const tasksFinished = tasksCreated.filter(task => task.isFinished).length;
+  const hasAtLeastOneTask = (tasksCreated.length>0)
+
+  function handleCreateNewTask(event: FormEvent){
+    event.preventDefault()
+    
+    setTasksCreated(state=>{      
+      return (        
+        [...state,{
+          content: newTaskText,
+          id: uuidv4(),
+          isFinished: false
+        }]
+      )
+    })
+    setNewTaskText('')
+  }
+  function handleNewTaskTextChange(event: ChangeEvent<HTMLInputElement>)  {    
+    event.target.setCustomValidity('');
+    setNewTaskText(event.target.value);
+  }
+  function handleNewTaskTextInvalid(event: InvalidEvent<HTMLInputElement>){
+    event.target.setCustomValidity('Esse campo é obrigatório!');
+  }
 
   return (
     <>
       <Header/>
       <div className="max-w-[46rem] mt-[-1.7rem] mb-8 mx-auto gap-16 items-start px-4 md:px-0">
-        <div className="flex h-14 gap-2">
+        <form onSubmit={handleCreateNewTask} className="flex h-14 gap-2">
           <input 
             type="text"
             placeholder="Adicione uma nova tarefa"
             className="rounded bg-gray-500 placeholder-gray-300 p-4 w-full text-gray-100"
+            value={newTaskText}
+            onChange={handleNewTaskTextChange}
+            onInvalid={handleNewTaskTextInvalid}
+            required
           />
           <button 
-            type="submit"
+            type="submit"            
             className="w-[5.625rem] bg-blue-500 rounded flex items-center justify-center gap-2 text-sm hover:bg-blue-300 transition-colors"
           >
             Criar
             <PlusCircle size={16}/>
           </button>
-        </div>
+        </form>
         <div className="flex items-center justify-between mt-16">
           <div className="flex gap-2 items-center justify-center">
             <strong className="text-blue-300 font-bold text-sm">
@@ -67,7 +95,10 @@ export function App() {
               Concluídas
             </strong>
             <span className="rounded-full bg-gray-400 px-2 py-[0.125rem] text-xs">
-              {tasksFinished + " de " + tasksCreated.length}
+              {hasAtLeastOneTask
+                ?tasksFinished + " de " + tasksCreated.length
+                :0
+              }
             </span>
           </div>        
         </div>
@@ -94,8 +125,6 @@ export function App() {
               </span>
             </div>
         }
-        
-        
       </div>
     </>
   )
