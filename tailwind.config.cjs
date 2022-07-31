@@ -6,14 +6,22 @@ module.exports = {
       fontFamily:{
         sans: 'Inter, sans-serif',
       },
+      fontSize: {
+        xs: ['0.75rem'],
+        sm: ['0.875rem'],
+        base: ['1rem'],
+      },
+      lineHeight: {
+        'snug': '1.4',        
+      },      
       colors: {
         purple: {
           200: '#8284FA',
           500: '#5E60CE',
         },
         blue: {
-          300: '#4EA8DE',
-          400: '#1E6F9F',
+          200: '#4EA8DE',
+          500: '#1E6F9F',
         },
         red: {
           500: '#E25858',
@@ -31,7 +39,7 @@ module.exports = {
       },
       boxShadow: {
         'outline': '0 0 0 2px',
-      }
+      },      
     },
   },
   plugins: [],

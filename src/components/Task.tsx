@@ -1,8 +1,8 @@
-export function Task() {  
+export function Task({id,content,isFinished}: TaskProps) {  
   return (
     <div>
       <span>
-        Task
+        {content}
       </span>
    </div>
   )
