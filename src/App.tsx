@@ -4,29 +4,29 @@ import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Header } from "./components/Header";
 import { Task } from "./components/Task";
 
-const taskDefaultList:TaskProps[] = [
+const taskDefaultList:TaskInfo[] = [
   {
-    id: 1,
+    id: 'task1',
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: false,
   },
   {
-    id: 2,
+    id: 'task2',
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: false,
   },
   {
-    id: 3,
+    id: 'task3',
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: true,
   },
   {
-    id: 4,
+    id: 'task4',
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: false,
   },
   {
-    id: 5,
+    id: 'task5',
     content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
     isFinished: true,
   },
@@ -59,6 +59,19 @@ export function App() {
     event.target.setCustomValidity('Esse campo é obrigatório!');
   }
 
+  function changeTaskStatus(taskId: string){
+    const tasksChanged = tasksCreated.map(task => 
+      task.id==taskId
+      ?{...task, isFinished:!task.isFinished}
+      :task
+    )
+    setTasksCreated(tasksChanged)
+  }
+  function deleteTask(taskId: string){
+    const taskWithoutDeletedTask = tasksCreated.filter(task => task.id !== taskId)
+    setTasksCreated(taskWithoutDeletedTask)
+  }  
+
   return (
     <>
       <Header/>
@@ -67,7 +80,7 @@ export function App() {
           <input 
             type="text"
             placeholder="Adicione uma nova tarefa"
-            className="rounded bg-gray-500 placeholder-gray-300 p-4 w-full text-gray-100"
+            className="rounded bg-gray-500 placeholder-gray-300 p-4 w-full text-gray-100 outline-none shadow-outline shadow-purple-500"
             value={newTaskText}
             onChange={handleNewTaskTextChange}
             onInvalid={handleNewTaskTextInvalid}
@@ -111,6 +124,8 @@ export function App() {
                     id={task.id}
                     content={task.content}
                     isFinished={task.isFinished}
+                    onDeleteTask={deleteTask}
+                    onTaskStatusChange={changeTaskStatus}
                   />
                 )
               })}

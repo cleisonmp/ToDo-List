@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
-interface TaskProps {
-  id: number,
+interface TaskInfo {
+  id: string,
   content: string,
   isFinished?: boolean
 }

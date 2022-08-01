@@ -9,9 +9,3 @@ body{
   @apply bg-gray-900 text-gray-100 leading-snug text-base;
   -webkit-font-smoothing: antialiased;
 }
-:focus{
-@apply outline-none shadow-outline shadow-purple-500
-}
-.xbox{
-  @apply font-bold text-green-500 hover:text-purple-200;
-}
