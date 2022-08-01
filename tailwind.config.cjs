@@ -38,7 +38,7 @@ module.exports = {
         }
       },
       boxShadow: {
-        'outline': '0 0 0 2px',
+        'outline': '0 0 0 1px',
       },      
     },
   },

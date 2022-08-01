@@ -4,36 +4,10 @@ import { ChangeEvent, FormEvent, InvalidEvent, useState } from "react";
 import { Header } from "./components/Header";
 import { Task } from "./components/Task";
 
-const taskDefaultList:TaskInfo[] = [
-  {
-    id: 'task1',
-    content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
-    isFinished: false,
-  },
-  {
-    id: 'task2',
-    content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
-    isFinished: false,
-  },
-  {
-    id: 'task3',
-    content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
-    isFinished: true,
-  },
-  {
-    id: 'task4',
-    content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
-    isFinished: false,
-  },
-  {
-    id: 'task5',
-    content: 'Integer urna interdum massa libero auctor neque turpis turpis semper. Duis vel sed fames integer.',
-    isFinished: true,
-  },
-]
+
 export function App() {  
   const [newTaskText, setNewTaskText] = useState('');
-  const [tasksCreated, setTasksCreated] = useState(taskDefaultList)
+  const [tasksCreated, setTasksCreated] = useState<TaskInfo[]>([])
   const tasksFinished = tasksCreated.filter(task => task.isFinished).length;
   const hasAtLeastOneTask = (tasksCreated.length>0)
 
@@ -80,7 +54,7 @@ export function App() {
           <input 
             type="text"
             placeholder="Adicione uma nova tarefa"
-            className="rounded bg-gray-500 placeholder-gray-300 p-4 w-full text-gray-100 outline-none shadow-outline shadow-purple-500"
+            className="rounded bg-gray-500 placeholder-gray-300 p-4 w-full text-gray-100 focus:outline-none focus:shadow-outline focus:shadow-purple-500"
             value={newTaskText}
             onChange={handleNewTaskTextChange}
             onInvalid={handleNewTaskTextInvalid}
@@ -88,7 +62,7 @@ export function App() {
           />
           <button 
             type="submit"            
-            className="w-[5.625rem] bg-blue-500 rounded flex items-center justify-center gap-2 text-sm hover:bg-blue-300 transition-colors"
+            className="w-[5.625rem] bg-blue-500 rounded flex items-center justify-center gap-2 text-sm hover:bg-blue-300 transition-colors focus:outline-none focus:shadow-outline focus:shadow-blue-200"
           >
             Criar
             <PlusCircle size={16}/>
